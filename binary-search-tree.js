@@ -14,7 +14,7 @@ class BinarySearchTree {
       this.key = key;
       this.value = value;
     }
-    else if (key < this.key ){
+    else if (key < this.key ){ //switch this to test #2
       if (this.left === null){
         this.left = new BinarySearchTree(key, value, this);
            
@@ -130,40 +130,149 @@ class BinarySearchTree {
   }
 }
 
-    const tree1 = new BinarySearchTree();
-    tree1.insert(3);
-    tree1.insert(1);
-    tree1.insert(4);
-    tree1.insert(6);
-    tree1.insert(9);
-    tree1.insert(5);
-    tree1.insert(7);
-    //console.log(tree1);
-    //console.log((JSON.stringify(tree1, null, 2)));
+
+
+const tree1 = new BinarySearchTree();
+tree1.insert(3);
+tree1.insert(1);
+tree1.insert(4);
+tree1.insert(6);
+tree1.insert(9);
+tree1.insert(5);
+tree1.insert(7);
+// console.log(tree1);
 const tree2 = new BinarySearchTree();
+tree2.insert(8);
 tree2.insert(3);
-tree2.insert(1);
-tree2.insert(4);
-tree2.insert(6);
-tree2.insert(9);
-tree2.insert(5);
-tree2.insert(7);
 tree2.insert(10);
-tree2.insert(12);
+tree2.insert(6);
+tree2.insert(1);
+tree2.insert(14);
+tree2.insert(4);
+tree2.insert(13);
+tree2.insert(7);
 
-
+// console.log(tree2);
 
 
 function findHeight(tree){
-if(!tree){
+
+  if(!tree){
     return 0;
-}
-let leftHeight = findHeight(tree.left);
-let rightHeght = findHeight(tree.right);
-return (Math.max(leftHeight, rightHeght) + 1);
+  }
+  let leftHeight = findHeight(tree.left);
+  // console.log(leftHeight);
+  let rightHeight = findHeight(tree.right);
+  // console.log(rightHeight);
+  return (Math.max(leftHeight, rightHeight) + 1);
 }
 
 
-console.log(findHeight(tree2));
-console.log('Divider');
-console.log(findHeight(tree1));
+// console.log(findHeight(tree2));
+// console.log('Divider');
+// console.log(findHeight(tree2));
+
+/*
+------------------is it BST?---------------------
+Write an algorithm to check whether an arbitrary binary tree is a binary search tree, 
+assuming the tree does not contain duplicates.
+*/
+
+const isBst = (tree) => {
+  // console.log(tree.left);
+  if (!tree) {
+    return true;
+  }
+  if (tree.left.key > tree.key) {
+    return false;
+  }
+  if (tree.right.key < tree.key) {
+    return false;
+  }
+
+  // if (isBst(tree.left) === null || isBst(tree.right) === null) {
+  //   return false;
+  // }
+  return true;
+};
+
+// console.log(isBst(tree1));
+
+/*
+
+------------------Third largest node-----------------------
+
+Write an algorithm to find the third largest node in a binary search tree
+
+*/
+
+// const findMax = (tree) =>  {
+//   if (tree === null) {
+//     return null;
+//   } else if (!tree.right) {
+//     return tree;
+//   }
+//   return findMax(tree.right);
+// };
+// console.log(findMax(tree2));
+
+const nthLargest = (tree, state) => {
+  if (tree.right) {
+    nthLargest(tree.right, state);
+  }
+  if (!--state.n) { 
+    state.result = tree.key;
+    return;
+  }
+  if (tree.left) {
+    nthLargest(tree.left, state);
+  } 
+}; 
+
+const thirdLargest = (tree) => {
+  if (!tree.key) {
+    return null;
+  }
+  let state = {n: 3, result: null};
+  nthLargest(tree, state);
+  return state.result;
+};
+
+// console.log(thirdLargest(tree1));
+
+// const thirdLargest = (tree) => {
+//   let largest = findMax(tree);
+//   let secondLargest = largest.parent;
+
+//   if (secondLargest.left > secondLargest.parent) {
+//     return secondLargest.left.key;
+//   } else {
+//     return secondLargest.key;
+//   }
+// };
+
+// console.log(thirdLargest(tree2));
+
+/*
+-------------------Balanced BST--------------
+Write an algorithm that checks if a BST is balanced (
+  i.e. a tree where no two leaves differ in distance from the root 
+  by more than one)
+*/
+
+const balanced = (tree) => {
+
+  if(!tree){
+    return 0;
+  }
+  let leftHeight = findHeight(tree.left);
+  let rightHeight = findHeight(tree.right);
+
+  if (Math.abs(leftHeight - rightHeight) > 1) {
+    return false;
+  }
+  return true;
+
+};
+
+console.log(balanced(tree1));
