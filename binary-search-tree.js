@@ -159,11 +159,14 @@ if(!tree){
     return 0;
 }
 let leftHeight = findHeight(tree.left);
+console.log('left', leftHeight);
 let rightHeght = findHeight(tree.right);
+console.log('right', rightHeght);
 return (Math.max(leftHeight, rightHeght) + 1);
 }
 
 
-console.log(findHeight(tree2));
-console.log('Divider');
-console.log(findHeight(tree1));
+//console.log(findHeight(tree2));
+//console.log('Divider');
+//console.log(findHeight(tree1));
+findHeight(tree1);
